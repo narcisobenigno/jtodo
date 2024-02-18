@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface EventStream {
     fun load(id: UUID): List<EventEnvelop>
-    fun write(events: List<EventEnvelop>)
+    fun write(newEvents: List<EventEnvelop>)
 }

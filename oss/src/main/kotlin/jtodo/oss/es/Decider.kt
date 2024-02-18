@@ -12,11 +12,11 @@ interface State{
 }
 
 interface Event {
-    val name: String
+    val eventName: String
 }
 
 
-class EventEnvelop(val id: UUID, val version: Int, val recordedAt: LocalDateTime, val event: Event)
+data class EventEnvelop(val id: UUID, val version: Int, val recordedAt: LocalDateTime, val event: Event)
 
 interface Decider<C: Command, S: State> {
     fun decide(command: C, state: S): List<EventEnvelop>
