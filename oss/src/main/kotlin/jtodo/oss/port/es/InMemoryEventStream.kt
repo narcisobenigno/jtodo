@@ -5,22 +5,24 @@ import jtodo.oss.es.EventStream
 import java.util.*
 
 class InMemoryEventStream: EventStream {
-    private val events = mutableListOf<EventEnvelop>()
+    private val levents = mutableListOf<EventEnvelop>()
+    private val events = mutableMapOf<UUID, MutableMap<Int, EventEnvelop>>()
 
     override fun load(id: UUID): List<EventEnvelop> {
-        return events
-                .filter { eventEnvelop: EventEnvelop -> eventEnvelop.id == id }
-                .sortedBy(EventEnvelop::version)
+        return events[id]?.values?.sortedBy(EventEnvelop::version) ?: listOf()
     }
 
     override fun write(newEvents: List<EventEnvelop>) {
-        newEvents.forEach() { new: EventEnvelop ->
-            events.forEach { existing: EventEnvelop ->
-                if(new.id == existing.id)
+        newEvents.forEach { new: EventEnvelop ->
+            events[new.id] = events[new.id] ?: mutableMapOf()
+
+            if (events[new.id]?.containsKey(new.version) == true) {
                     throw VersionConflictException(new)
             }
         }
 
-        events.addAll(newEvents)
+        newEvents.forEach { newEvent: EventEnvelop ->
+            events[newEvent.id]?.set(newEvent.version, newEvent)
+        }
     }
 }
