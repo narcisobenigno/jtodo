@@ -5,7 +5,6 @@ import jtodo.oss.es.EventStream
 import java.util.*
 
 class InMemoryEventStream: EventStream {
-    private val levents = mutableListOf<EventEnvelop>()
     private val events = mutableMapOf<UUID, MutableMap<Int, EventEnvelop>>()
 
     override fun load(id: UUID): List<EventEnvelop> {
