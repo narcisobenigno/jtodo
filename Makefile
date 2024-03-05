@@ -1,7 +1,10 @@
-.PHONY: clean
+run: 
+	@./gradlew run
+
 clean:
 	@./gradlew clean
 
-.PHONY: test
 test: clean
 	@./gradlew test
+
+.PHONY: clean test
