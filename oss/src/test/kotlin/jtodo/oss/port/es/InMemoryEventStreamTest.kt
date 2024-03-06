@@ -24,7 +24,6 @@ class InMemoryEventStreamTest {
                     EventEnvelop(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
-                            LocalDateTime.of(2024, 2, 18, 1, 2),
                             SomethingHappened(value = 1),
                     ),
             ))
@@ -35,7 +34,6 @@ class InMemoryEventStreamTest {
                             EventEnvelop(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
-                                    LocalDateTime.of(2024, 2, 18, 1, 2),
                                     SomethingHappened(value = 1),
                             ),
                     ),
@@ -52,13 +50,11 @@ class InMemoryEventStreamTest {
                     EventEnvelop(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
-                            LocalDateTime.of(2024, 2, 18, 1, 2),
                             SomethingHappened(value = 1),
                     ),
                     EventEnvelop(
                             UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
-                            LocalDateTime.of(2024, 2, 18, 1, 2),
                             SomethingHappened(value = 2),
                     ),
             ))
@@ -69,7 +65,6 @@ class InMemoryEventStreamTest {
                             EventEnvelop(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
-                                    LocalDateTime.of(2024, 2, 18, 1, 2),
                                     SomethingHappened(value = 1),
                             ),
                     ),
@@ -82,7 +77,6 @@ class InMemoryEventStreamTest {
                             EventEnvelop(
                                     UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
-                                    LocalDateTime.of(2024, 2, 18, 1, 2),
                                     SomethingHappened(value = 2),
                             ),
                     ),
@@ -98,7 +92,6 @@ class InMemoryEventStreamTest {
                     EventEnvelop(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
-                            LocalDateTime.of(2024, 2, 18, 1, 2),
                             SomethingHappened(value = 1),
                     ),
             ))
@@ -108,7 +101,6 @@ class InMemoryEventStreamTest {
                         EventEnvelop(
                                 UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                 1,
-                                LocalDateTime.of(2024, 2, 18, 1, 2),
                                 SomethingHappened(value = 2),
                         ),
                 ))
@@ -120,7 +112,6 @@ class InMemoryEventStreamTest {
                             EventEnvelop(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
-                                    LocalDateTime.of(2024, 2, 18, 1, 2),
                                     SomethingHappened(value = 1),
                             ),
                     ),
@@ -136,13 +127,11 @@ class InMemoryEventStreamTest {
                     EventEnvelop(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             2,
-                            LocalDateTime.of(2024, 2, 18, 1, 3),
                             SomethingHappened(value = 2),
                     ),
                     EventEnvelop(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
-                            LocalDateTime.of(2024, 2, 18, 1, 2),
                             SomethingHappened(value = 1),
                     ),
             ))
@@ -153,13 +142,11 @@ class InMemoryEventStreamTest {
                             EventEnvelop(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
-                                    LocalDateTime.of(2024, 2, 18, 1, 2),
                                     SomethingHappened(value = 1),
                             ),
                             EventEnvelop(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     2,
-                                    LocalDateTime.of(2024, 2, 18, 1, 3),
                                     SomethingHappened(value = 2),
                             ),
                     ),
