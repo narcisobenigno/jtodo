@@ -42,4 +42,22 @@ class QuantityTest {
             assertEquals("teaspoon has to be greater than zero", thrown.message)
         }
     }
+
+    @Nested
+    inner class tablespoon {
+        @Test
+        fun equality() {
+            assertEquals(TableSpoon(10u), TableSpoon(10u))
+            assertNotEquals(TableSpoon(10u), TableSpoon(20u))
+        }
+
+        @Test
+        fun `grams cannot be zero`() {
+            val thrown = assertThrows<IllegalArgumentException> {
+                TableSpoon(0u)
+            }
+
+            assertEquals("tablespoon has to be greater than zero", thrown.message)
+        }
+    }
 }

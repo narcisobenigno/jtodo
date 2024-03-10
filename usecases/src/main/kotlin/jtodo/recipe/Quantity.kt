@@ -24,3 +24,13 @@ data class TeaSpoon(override val value: UInt): Quantity {
         }
     }
 }
+
+data class TableSpoon(override val value: UInt): Quantity {
+    override val measurement = "tablespoon"
+
+    init {
+        require(value > 0u) {
+            "tablespoon has to be greater than zero"
+        }
+    }
+}
