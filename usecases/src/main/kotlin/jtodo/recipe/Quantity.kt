@@ -14,3 +14,13 @@ data class Grams(override val value: UInt): Quantity {
         }
     }
 }
+
+data class TeaSpoon(override val value: UInt): Quantity {
+    override val measurement = "teaspoon"
+
+    init {
+        require(value > 0u) {
+            "teaspoon has to be greater than zero"
+        }
+    }
+}
