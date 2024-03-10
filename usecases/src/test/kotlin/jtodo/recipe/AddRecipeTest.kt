@@ -12,7 +12,11 @@ class AddRecipeTest {
         val events = addRecipe.decide(
             AddRecipeCommand(
                 UUID.fromString("7d1b5333-5097-406c-81f6-847c02ccd140"),
-                "sopa de abobrinha"
+                "sopa de abobrinha",
+                listOf(
+                    Ingredient("abobrinha", Grams(100u)),
+                    Ingredient("sal", Grams(8u))
+                ),
             ),
             addRecipe.initialState
         )
@@ -24,7 +28,11 @@ class AddRecipeTest {
                     1,
                     RecipeAdded(
                         UUID.fromString("7d1b5333-5097-406c-81f6-847c02ccd140"),
-                        "sopa de abobrinha"
+                        "sopa de abobrinha",
+                        listOf(
+                            Ingredient("abobrinha", Grams(100u)),
+                            Ingredient("sal", Grams(8u))
+                        ),
                     )
                 )
             ),

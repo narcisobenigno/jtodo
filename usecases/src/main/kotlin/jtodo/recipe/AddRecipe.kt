@@ -6,7 +6,7 @@ import jtodo.oss.es.EventEnvelop
 import jtodo.oss.es.State
 import java.util.UUID
 
-data class AddRecipeCommand(val id: UUID, val name: String): Command
+data class AddRecipeCommand(val id: UUID, val name: String, val ingredients: List<Ingredient>): Command
 
 class PlanRecipeState: State {
 
@@ -19,7 +19,8 @@ class AddRecipe: Decider<AddRecipeCommand, PlanRecipeState> {
             1,
             RecipeAdded(
                 command.id,
-                command.name
+                command.name,
+                command.ingredients
             )
         ))
     }
