@@ -22,7 +22,7 @@ class AddRecipeTest {
         )
 
         assertEquals(
-            listOf(
+            Result.success(listOf(
                 EventEnvelop(
                     UUID.fromString("7d1b5333-5097-406c-81f6-847c02ccd140"),
                     1,
@@ -35,7 +35,7 @@ class AddRecipeTest {
                         ),
                     )
                 )
-            ),
+            )),
             events
         )
     }

@@ -13,8 +13,8 @@ class PlanRecipeState: State {
 }
 
 class AddRecipe: Decider<AddRecipeCommand, PlanRecipeState> {
-    override fun decide(command: AddRecipeCommand, state: PlanRecipeState): List<EventEnvelop> {
-        return listOf(EventEnvelop(
+    override fun decide(command: AddRecipeCommand, state: PlanRecipeState): Result<List<EventEnvelop>> {
+        return Result.success(listOf(EventEnvelop(
             command.id,
             1,
             RecipeAdded(
@@ -22,7 +22,7 @@ class AddRecipe: Decider<AddRecipeCommand, PlanRecipeState> {
                 command.name,
                 command.ingredients
             )
-        ))
+        )))
     }
 
     override fun evolve(state: PlanRecipeState, event: EventEnvelop): PlanRecipeState {
