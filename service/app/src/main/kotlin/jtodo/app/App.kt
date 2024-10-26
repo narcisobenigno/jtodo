@@ -3,15 +3,11 @@
  */
 package jtodo.app
 
-import jtodo.utilities.StringUtils
-
 import io.javalin.Javalin
 import org.apache.commons.text.WordUtils
 
 fun main() {
-    val tokens = StringUtils.split(MessageUtils.getMessage())
-    val result = StringUtils.join(tokens)
     Javalin.create()
-        .get("/") { ctx -> ctx.result(WordUtils.capitalize(result)) }
+        .get("/") { ctx -> ctx.result(WordUtils.capitalize("hello!")) }
         .start(8080)
 }
