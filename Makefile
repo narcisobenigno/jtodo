@@ -1,10 +1,13 @@
+.PHONY: run
 run: 
-	@./gradlew run
+	@./service/gradlew -p ./service run
 
+.PHONY: clean
 clean:
-	@./gradlew clean
+	@./service/gradlew -p ./service clean
 
+.PHONY: test
 test: clean
-	@./gradlew test
+	@./service/gradlew -p ./service test
 
-.PHONY: clean test
+test.all: test
