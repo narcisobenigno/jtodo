@@ -3,8 +3,27 @@ package jtodo.oss.es
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.util.*
 
 class IdTest {
+
+    @Test
+    fun `builds with string or UUID`() {
+        assertEquals(
+            Id(UUID.fromString("630a2b09-e0cf-4e77-b595-4e934ac35276")),
+            Id("630a2b09-e0cf-4e77-b595-4e934ac35276")
+        )
+        assertEquals(
+            Id(UUID.fromString("630a2b09-e0cf-4e77-b595-4e934ac35276")),
+            Id(" 630a2b09-e0cf-4e77-b595-4e934ac35276   ")
+        )
+
+        assertNotEquals(
+            Id(UUID.fromString("630a2b09-e0cf-4e77-b595-4e934ac35276")),
+            Id("730a2b09-e0cf-4e77-b595-4e934ac35276")
+        )
+    }
+
     @Test
     fun `builds scoped id`() {
         assertEquals(
