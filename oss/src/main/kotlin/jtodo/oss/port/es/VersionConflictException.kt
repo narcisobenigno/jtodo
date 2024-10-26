@@ -1,8 +1,7 @@
 package jtodo.oss.port.es
 
-import jtodo.oss.es.Event
-import jtodo.oss.es.EventEnvelop
+import jtodo.oss.es.EventRecord
 
 class VersionConflictException: Exception {
-    constructor(event: EventEnvelop) : super("conflict when writing event ${event.event.eventName} version ${event.version}")
+    constructor(event: EventRecord) : super("conflict when writing event ${event.event.eventName} version ${event.version}")
 }

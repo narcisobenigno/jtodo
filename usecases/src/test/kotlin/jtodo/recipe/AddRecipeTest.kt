@@ -1,6 +1,6 @@
 package jtodo.recipe
 
-import jtodo.oss.es.EventEnvelop
+import jtodo.oss.es.EventRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -23,7 +23,7 @@ class AddRecipeTest {
 
         assertEquals(
             Result.success(listOf(
-                EventEnvelop(
+                EventRecord(
                     UUID.fromString("7d1b5333-5097-406c-81f6-847c02ccd140"),
                     1,
                     RecipeAdded(

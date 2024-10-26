@@ -1,27 +1,25 @@
 package jtodo.oss.port.es
 
-import jtodo.oss.es.EventEnvelop
+import jtodo.oss.es.EventRecord
 import jtodo.oss.es.EventStream
 import java.util.*
 
 class InMemoryEventStream: EventStream {
-    private val events = mutableMapOf<UUID, MutableMap<Int, EventEnvelop>>()
+    private val events = mutableMapOf<UUID, MutableMap<Int, EventRecord>>()
 
-    override fun load(id: UUID): List<EventEnvelop> {
-        return events[id]?.values?.sortedBy(EventEnvelop::version) ?: listOf()
+    override fun load(id: UUID): List<EventRecord> {
+        return events[id]?.values?.sortedBy(EventRecord::version) ?: listOf()
     }
 
-    override fun write(newEvents: List<EventEnvelop>) {
-        newEvents.forEach { new: EventEnvelop ->
-            events[new.id] = events[new.id] ?: mutableMapOf()
+    override fun write(newEvents: List<EventRecord>) {
+        newEvents.forEach {
+            events[it.id] = events[it.id] ?: mutableMapOf()
 
-            if (events[new.id]?.containsKey(new.version) == true) {
-                    throw VersionConflictException(new)
+            if (events[it.id]?.containsKey(it.version) == true) {
+                    throw VersionConflictException(it)
             }
         }
 
-        newEvents.forEach { newEvent: EventEnvelop ->
-            events[newEvent.id]?.set(newEvent.version, newEvent)
-        }
+        newEvents.forEach { events[it.id]?.set(it.version, it) }
     }
 }

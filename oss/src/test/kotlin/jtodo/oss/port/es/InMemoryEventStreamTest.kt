@@ -1,14 +1,12 @@
 package jtodo.oss.port.es
 
 import jtodo.oss.es.Event
-import jtodo.oss.es.EventEnvelop
+import jtodo.oss.es.EventRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
-import java.time.LocalDateTime
 import java.util.*
 
 class InMemoryEventStreamTest {
@@ -17,11 +15,11 @@ class InMemoryEventStreamTest {
     @DisplayName("write events")
     inner class WriteEvents {
         @Test
-        fun single_event() {
+        fun `single events`() {
             val inMemoryEventStream = InMemoryEventStream()
 
             inMemoryEventStream.write(listOf(
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
                             SomethingHappened(value = 1),
@@ -31,7 +29,7 @@ class InMemoryEventStreamTest {
             val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
             assertEquals(
                     listOf(
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
                                     SomethingHappened(value = 1),
@@ -43,16 +41,16 @@ class InMemoryEventStreamTest {
 
 
         @Test
-        fun multi_events() {
+        fun `multi events`() {
             val inMemoryEventStream = InMemoryEventStream()
 
             inMemoryEventStream.write(listOf(
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
                             SomethingHappened(value = 1),
                     ),
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
                             SomethingHappened(value = 2),
@@ -62,7 +60,7 @@ class InMemoryEventStreamTest {
             var events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
             assertEquals(
                     listOf(
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
                                     SomethingHappened(value = 1),
@@ -74,7 +72,7 @@ class InMemoryEventStreamTest {
             events = inMemoryEventStream.load(UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
             assertEquals(
                     listOf(
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
                                     SomethingHappened(value = 2),
@@ -85,11 +83,11 @@ class InMemoryEventStreamTest {
         }
 
         @Test
-        fun conflicts_when_version_conflicts() {
+        fun `conflicts when version conflicts`() {
             val inMemoryEventStream = InMemoryEventStream()
 
             inMemoryEventStream.write(listOf(
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
                             SomethingHappened(value = 1),
@@ -98,7 +96,7 @@ class InMemoryEventStreamTest {
 
             assertThrowsExactly(VersionConflictException::class.java) {
                 inMemoryEventStream.write(listOf(
-                        EventEnvelop(
+                        EventRecord(
                                 UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                 1,
                                 SomethingHappened(value = 2),
@@ -109,7 +107,7 @@ class InMemoryEventStreamTest {
             val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
             assertEquals(
                     listOf(
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
                                     SomethingHappened(value = 1),
@@ -120,16 +118,16 @@ class InMemoryEventStreamTest {
         }
 
         @Test
-        fun ensures_asc_sorting_by_version() {
+        fun `ensures asc sorting by version`() {
             val inMemoryEventStream = InMemoryEventStream()
 
             inMemoryEventStream.write(listOf(
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             2,
                             SomethingHappened(value = 2),
                     ),
-                    EventEnvelop(
+                    EventRecord(
                             UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                             1,
                             SomethingHappened(value = 1),
@@ -139,12 +137,12 @@ class InMemoryEventStreamTest {
             val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
             assertEquals(
                     listOf(
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     1,
                                     SomethingHappened(value = 1),
                             ),
-                            EventEnvelop(
+                            EventRecord(
                                     UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
                                     2,
                                     SomethingHappened(value = 2),
