@@ -16,4 +16,10 @@ class VersionTest {
             Version(0u)
         }
     }
+
+    @Test
+    fun bump() {
+        assertEquals(Version().bump(), Version(2u))
+        assertEquals(Version(2u).bump(), Version(3u))
+    }
 }
