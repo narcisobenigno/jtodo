@@ -1,9 +1,9 @@
 package todo.oss.es
 
-import jtodo.oss.port.es.InMemoryEventStream
-
 import jtodo.oss.es.Event
 import jtodo.oss.es.EventRecord
+import jtodo.oss.es.Id
+import jtodo.oss.port.es.InMemoryEventStream
 import jtodo.oss.port.es.VersionConflictException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
@@ -24,18 +24,18 @@ class InMemoryEventStreamTest {
             inMemoryEventStream.write(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
                 )
             )
 
-            val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
+            val events = inMemoryEventStream.load(Id.fixed("recipe-1"))
             assertEquals(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
@@ -52,23 +52,23 @@ class InMemoryEventStreamTest {
             inMemoryEventStream.write(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
                     EventRecord(
-                        UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-2"),
                         1,
                         SomethingHappened(value = 2),
                     ),
                 )
             )
 
-            var events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
+            var events = inMemoryEventStream.load(Id.fixed("recipe-1"))
             assertEquals(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     )
@@ -76,11 +76,11 @@ class InMemoryEventStreamTest {
                 events,
             )
 
-            events = inMemoryEventStream.load(UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
+            events = inMemoryEventStream.load(Id.fixed("recipe-2"))
             assertEquals(
                 listOf(
                     EventRecord(
-                        UUID.fromString("a326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-2"),
                         1,
                         SomethingHappened(value = 2),
                     ),
@@ -96,7 +96,7 @@ class InMemoryEventStreamTest {
             inMemoryEventStream.write(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
@@ -107,7 +107,7 @@ class InMemoryEventStreamTest {
                 inMemoryEventStream.write(
                     listOf(
                         EventRecord(
-                            UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                            Id.fixed("recipe-1"),
                             1,
                             SomethingHappened(value = 2),
                         ),
@@ -115,11 +115,11 @@ class InMemoryEventStreamTest {
                 )
             }
 
-            val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
+            val events = inMemoryEventStream.load(Id.fixed("recipe-1"))
             assertEquals(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
@@ -135,28 +135,28 @@ class InMemoryEventStreamTest {
             inMemoryEventStream.write(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         2,
                         SomethingHappened(value = 2),
                     ),
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
                 )
             )
 
-            val events = inMemoryEventStream.load(UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"))
+            val events = inMemoryEventStream.load(Id.fixed("recipe-1"))
             assertEquals(
                 listOf(
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         1,
                         SomethingHappened(value = 1),
                     ),
                     EventRecord(
-                        UUID.fromString("9326449b-3c8e-4ce6-8d0e-d1a2ef96aa12"),
+                        Id.fixed("recipe-1"),
                         2,
                         SomethingHappened(value = 2),
                     ),

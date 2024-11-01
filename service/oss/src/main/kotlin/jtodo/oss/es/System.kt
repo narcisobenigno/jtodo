@@ -1,9 +1,7 @@
 package jtodo.oss.es
 
-import java.util.UUID
-
-fun <C : Command, S : State, D : Decider<C, S>> system(decider: D, eventStream: EventStream): (UUID, C) -> Result<String> {
-    return { id: UUID, command: C ->
+fun <C : Command, S : State, D : Decider<C, S>> system(decider: D, eventStream: EventStream): (Id, C) -> Result<String> {
+    return { id: Id, command: C ->
         val events = eventStream.load(id)
         val state = events.fold(decider.initialState, decider::evolve)
 
