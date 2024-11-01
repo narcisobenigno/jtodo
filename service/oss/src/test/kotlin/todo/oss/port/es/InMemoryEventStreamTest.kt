@@ -1,4 +1,4 @@
-package todo.oss.es
+package todo.oss.port.es
 
 import jtodo.oss.es.Event
 import jtodo.oss.es.EventRecord
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.*
 
 class InMemoryEventStreamTest {
 
