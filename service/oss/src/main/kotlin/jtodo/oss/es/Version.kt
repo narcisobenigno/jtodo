@@ -1,7 +1,7 @@
 package jtodo.oss.es
 
 
-data class Version(private val value: UInt) {
+data class Version(private val value: UInt): Comparable<Version> {
     constructor():this(1u)
 
     fun bump(): Version {
@@ -9,5 +9,9 @@ data class Version(private val value: UInt) {
     }
     init {
         require(value > 0u)
+    }
+
+    override fun compareTo(other: Version): Int {
+        return value.compareTo(other.value)
     }
 }
