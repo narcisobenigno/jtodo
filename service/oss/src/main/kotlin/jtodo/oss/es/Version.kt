@@ -1,3 +1,8 @@
 package jtodo.oss.es
 
-data class Version(private val value: UInt)
+data class Version(private val value: UInt) {
+    constructor():this(1u)
+    init {
+        require(value > 0u)
+    }
+}

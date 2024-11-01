@@ -3,7 +3,7 @@ package jtodo.oss.port.es
 import jtodo.oss.es.EventRecord
 import jtodo.oss.es.EventStream
 import jtodo.oss.es.Id
-import java.util.*
+import jtodo.oss.es.VersionConflictException
 
 class InMemoryEventStream: EventStream {
     private val events = mutableMapOf<Id, MutableMap<Int, EventRecord>>()

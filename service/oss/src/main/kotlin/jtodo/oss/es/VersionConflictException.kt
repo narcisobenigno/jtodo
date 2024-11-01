@@ -1,4 +1,4 @@
-package jtodo.oss.port.es
+package jtodo.oss.es
 
 import jtodo.oss.es.EventRecord
 

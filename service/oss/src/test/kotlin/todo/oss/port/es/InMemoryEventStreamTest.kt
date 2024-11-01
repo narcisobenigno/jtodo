@@ -4,7 +4,7 @@ import jtodo.oss.es.Event
 import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
 import jtodo.oss.port.es.InMemoryEventStream
-import jtodo.oss.port.es.VersionConflictException
+import jtodo.oss.es.VersionConflictException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.DisplayName
