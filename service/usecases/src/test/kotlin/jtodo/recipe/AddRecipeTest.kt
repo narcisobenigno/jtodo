@@ -2,6 +2,7 @@ package jtodo.recipe
 
 import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
+import jtodo.oss.es.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -26,7 +27,7 @@ class AddRecipeTest {
             Result.success(listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
-                    1,
+                    Version(),
                     RecipeAdded(
                         Id.fixed("recipe-1"),
                         "sopa de abobrinha",

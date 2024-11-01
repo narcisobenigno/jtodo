@@ -12,7 +12,7 @@ class PlanRecipeState: State {
 class AddRecipe: Decider<AddRecipeCommand, PlanRecipeState> {
     override fun decide(command: AddRecipeCommand, state: PlanRecipeState): Result<List<EventRecord>> {
         return Result.success(listOf(
-            EventRecord(command.id, 1, RecipeAdded(
+            EventRecord(command.id, Version(), RecipeAdded(
                 command.id,
                 command.name,
                 command.ingredients

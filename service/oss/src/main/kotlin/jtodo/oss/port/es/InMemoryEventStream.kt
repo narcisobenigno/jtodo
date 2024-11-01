@@ -1,12 +1,9 @@
 package jtodo.oss.port.es
 
-import jtodo.oss.es.EventRecord
-import jtodo.oss.es.EventStream
-import jtodo.oss.es.Id
-import jtodo.oss.es.VersionConflictException
+import jtodo.oss.es.*
 
 class InMemoryEventStream: EventStream {
-    private val events = mutableMapOf<Id, MutableMap<Int, EventRecord>>()
+    private val events = mutableMapOf<Id, MutableMap<Version, EventRecord>>()
 
     override fun load(id: Id): List<EventRecord> {
         return events[id]?.values?.sortedBy(EventRecord::version) ?: listOf()
