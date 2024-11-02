@@ -2,8 +2,12 @@ package jtodo.oss.port.es
 
 import jtodo.oss.es.*
 
-class InMemoryEventStream: EventStream {
+class InMemoryEventStream(vararg events: EventRecord) : EventStream {
     private val events = mutableMapOf<Id, MutableMap<Version, EventRecord>>()
+
+    init {
+        write(listOf(*events) )
+    }
 
     override fun load(id: Id): List<EventRecord> {
         return events[id]?.values?.sortedBy(EventRecord::version) ?: listOf()

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class InMemoryEventStreamTest {
-
     @Nested
     @DisplayName("write events")
     inner class WriteEvents {
@@ -155,6 +154,27 @@ class InMemoryEventStreamTest {
                         Id.fixed("recipe-1"),
                         Version(2u),
                         SomethingHappened(value = 2),
+                    ),
+                ),
+                events,
+            )
+        }
+
+        @Test
+        fun `writes events in constructor`() {
+            val inMemoryEventStream = InMemoryEventStream(EventRecord(
+                Id.fixed("recipe-1"),
+                Version(),
+                SomethingHappened(value = 1),
+            ))
+
+            val events = inMemoryEventStream.load(Id.fixed("recipe-1"))
+            assertEquals(
+                listOf(
+                    EventRecord(
+                        Id.fixed("recipe-1"),
+                        Version(),
+                        SomethingHappened(value = 1),
                     ),
                 ),
                 events,
