@@ -2,7 +2,7 @@ package jtodo.oss.port.es
 
 import jtodo.oss.es.*
 
-class InMemoryEventStream(vararg events: EventRecord) : EventStream {
+class InMemoryEventStore(vararg events: EventRecord) : EventStore {
     private val events = mutableMapOf<Id, MutableMap<Version, EventRecord>>()
 
     init {

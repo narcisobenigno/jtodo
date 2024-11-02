@@ -2,17 +2,19 @@ package todo.oss.port.es
 
 import jtodo.oss.es.*
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
 import todo.oss.es.SumHappened
 
-interface EventStreamContractTest {
-    fun eventStream(): EventStream
+interface EventStoreContractTest {
+    fun eventStore(): EventStore
 
     @Test
     fun `single events`() {
-        val eventStream = eventStream()
+        val eventStore = eventStore()
 
-        eventStream.write(
+        eventStore.write(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -22,8 +24,8 @@ interface EventStreamContractTest {
             )
         )
 
-        val events = eventStream.load(Id.fixed("recipe-1"))
-        Assertions.assertEquals(
+        val events = eventStore.load(Id.fixed("recipe-1"))
+        assertEquals(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -38,9 +40,9 @@ interface EventStreamContractTest {
 
     @Test
     fun `multi events`() {
-        val eventStream = eventStream()
+        val eventStore = eventStore()
 
-        eventStream.write(
+        eventStore.write(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -55,8 +57,8 @@ interface EventStreamContractTest {
             )
         )
 
-        var events = eventStream.load(Id.fixed("recipe-1"))
-        Assertions.assertEquals(
+        var events = eventStore.load(Id.fixed("recipe-1"))
+        assertEquals(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -67,8 +69,8 @@ interface EventStreamContractTest {
             events,
         )
 
-        events = eventStream.load(Id.fixed("recipe-2"))
-        Assertions.assertEquals(
+        events = eventStore.load(Id.fixed("recipe-2"))
+        assertEquals(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-2"),
@@ -82,9 +84,9 @@ interface EventStreamContractTest {
 
     @Test
     fun `conflicts when version conflicts`() {
-        val eventStream = eventStream()
+        val eventStore = eventStore()
 
-        eventStream.write(
+        eventStore.write(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -94,8 +96,8 @@ interface EventStreamContractTest {
             )
         )
 
-        Assertions.assertThrowsExactly(VersionConflictException::class.java) {
-            eventStream.write(
+        assertThrowsExactly(VersionConflictException::class.java) {
+            eventStore.write(
                 listOf(
                     EventRecord(
                         Id.fixed("recipe-1"),
@@ -106,8 +108,8 @@ interface EventStreamContractTest {
             )
         }
 
-        val events = eventStream.load(Id.fixed("recipe-1"))
-        Assertions.assertEquals(
+        val events = eventStore.load(Id.fixed("recipe-1"))
+        assertEquals(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -121,9 +123,9 @@ interface EventStreamContractTest {
 
     @Test
     fun `ensures asc sorting by version`() {
-        val eventStream = eventStream()
+        val eventStore = eventStore()
 
-        eventStream.write(
+        eventStore.write(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),
@@ -138,8 +140,8 @@ interface EventStreamContractTest {
             )
         )
 
-        val events = eventStream.load(Id.fixed("recipe-1"))
-        Assertions.assertEquals(
+        val events = eventStore.load(Id.fixed("recipe-1"))
+        assertEquals(
             listOf(
                 EventRecord(
                     Id.fixed("recipe-1"),

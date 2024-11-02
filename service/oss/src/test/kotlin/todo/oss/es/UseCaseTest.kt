@@ -1,15 +1,15 @@
 package todo.oss.es
 
 import jtodo.oss.es.*
-import jtodo.oss.port.es.InMemoryEventStream
+import jtodo.oss.port.es.InMemoryEventStore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class UseCaseTest {
     @Test
     fun `executes command`() {
-        val eventStream = InMemoryEventStream()
-        val doSomething = useCase(DoSomeSum(), eventStream)
+        val eventStore = InMemoryEventStore()
+        val doSomething = useCase(DoSomeSum(), eventStore)
 
         doSomething(
             Id.fixed("something-1"),
@@ -27,18 +27,18 @@ class UseCaseTest {
                     SumHappened(value = 3),
                 )
             ),
-            eventStream.load(Id.fixed("something-1"))
+            eventStore.load(Id.fixed("something-1"))
         )
     }
 
     @Test
     fun `consider previous events`() {
-        val eventStream = InMemoryEventStream(EventRecord(
+        val eventStore = InMemoryEventStore(EventRecord(
             Id.fixed("something-1"),
             Version(),
             SumHappened(value = 2),
         ))
-        val doSomething = useCase(DoSomeSum(), eventStream)
+        val doSomething = useCase(DoSomeSum(), eventStore)
 
         doSomething(
             Id.fixed("something-1"),
@@ -61,7 +61,7 @@ class UseCaseTest {
                     SumHappened(value = 5),
                 )
             ),
-            eventStream.load(Id.fixed("something-1"))
+            eventStore.load(Id.fixed("something-1"))
         )
     }
 }
