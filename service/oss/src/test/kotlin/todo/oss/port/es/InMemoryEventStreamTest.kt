@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import todo.oss.es.SumHappened
 
 class InMemoryEventStreamTest {
     @Nested
@@ -21,7 +22,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 )
             )
@@ -32,7 +33,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 ),
                 events,
@@ -49,12 +50,12 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                     EventRecord(
                         Id.fixed("recipe-2"),
                         Version(),
-                        SomethingHappened(value = 2),
+                        SumHappened(value = 2),
                     ),
                 )
             )
@@ -65,7 +66,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     )
                 ),
                 events,
@@ -77,7 +78,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-2"),
                         Version(),
-                        SomethingHappened(value = 2),
+                        SumHappened(value = 2),
                     ),
                 ),
                 events
@@ -93,7 +94,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 )
             )
@@ -104,7 +105,7 @@ class InMemoryEventStreamTest {
                         EventRecord(
                             Id.fixed("recipe-1"),
                             Version(),
-                            SomethingHappened(value = 2),
+                            SumHappened(value = 2),
                         ),
                     )
                 )
@@ -116,7 +117,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 ),
                 events,
@@ -132,12 +133,12 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(2u),
-                        SomethingHappened(value = 2),
+                        SumHappened(value = 2),
                     ),
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 )
             )
@@ -148,12 +149,12 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(2u),
-                        SomethingHappened(value = 2),
+                        SumHappened(value = 2),
                     ),
                 ),
                 events,
@@ -165,7 +166,7 @@ class InMemoryEventStreamTest {
             val inMemoryEventStream = InMemoryEventStream(EventRecord(
                 Id.fixed("recipe-1"),
                 Version(),
-                SomethingHappened(value = 1),
+                SumHappened(value = 1),
             ))
 
             val events = inMemoryEventStream.load(Id.fixed("recipe-1"))
@@ -174,7 +175,7 @@ class InMemoryEventStreamTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        SomethingHappened(value = 1),
+                        SumHappened(value = 1),
                     ),
                 ),
                 events,
@@ -183,7 +184,3 @@ class InMemoryEventStreamTest {
     }
 }
 
-data class SomethingHappened(val value: Int) : Event {
-    override val eventName: String
-        get() = "SomethingHappened"
-}
