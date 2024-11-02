@@ -1,7 +1,6 @@
 package todo.oss.port.es
 
 import jtodo.oss.es.*
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
@@ -77,8 +76,7 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 2),
                 ),
-            ),
-            events
+            ), events
         )
     }
 
