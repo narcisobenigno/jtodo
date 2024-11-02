@@ -1,6 +1,10 @@
 package todo.oss.port.es
 
-import jtodo.oss.es.*
+import jtodo.oss.es.EventRecord
+import jtodo.oss.es.EventStore
+import jtodo.oss.es.Id
+import jtodo.oss.es.Version
+import jtodo.oss.es.VersionConflictException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
@@ -20,7 +24,7 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 1),
                 ),
-            )
+            ),
         )
 
         val events = eventStore.load(Id.fixed("recipe-1"))
@@ -35,7 +39,6 @@ interface EventStoreContractTest {
             events,
         )
     }
-
 
     @Test
     fun `multi events`() {
@@ -53,7 +56,7 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 2),
                 ),
-            )
+            ),
         )
 
         var events = eventStore.load(Id.fixed("recipe-1"))
@@ -63,7 +66,7 @@ interface EventStoreContractTest {
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
-                )
+                ),
             ),
             events,
         )
@@ -76,7 +79,8 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 2),
                 ),
-            ), events
+            ),
+            events,
         )
     }
 
@@ -91,7 +95,7 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 1),
                 ),
-            )
+            ),
         )
 
         assertThrowsExactly(VersionConflictException::class.java) {
@@ -102,7 +106,7 @@ interface EventStoreContractTest {
                         Version(),
                         SumHappened(value = 2),
                     ),
-                )
+                ),
             )
         }
 
@@ -135,7 +139,7 @@ interface EventStoreContractTest {
                     Version(),
                     SumHappened(value = 1),
                 ),
-            )
+            ),
         )
 
         val events = eventStore.load(Id.fixed("recipe-1"))

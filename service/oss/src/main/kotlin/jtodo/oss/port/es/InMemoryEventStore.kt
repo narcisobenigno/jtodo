@@ -1,12 +1,16 @@
 package jtodo.oss.port.es
 
-import jtodo.oss.es.*
+import jtodo.oss.es.EventRecord
+import jtodo.oss.es.EventStore
+import jtodo.oss.es.Id
+import jtodo.oss.es.Version
+import jtodo.oss.es.VersionConflictException
 
 class InMemoryEventStore(vararg events: EventRecord) : EventStore {
     private val events = mutableMapOf<Id, MutableMap<Version, EventRecord>>()
 
     init {
-        write(listOf(*events) )
+        write(listOf(*events))
     }
 
     override fun load(id: Id): List<EventRecord> {
@@ -18,7 +22,7 @@ class InMemoryEventStore(vararg events: EventRecord) : EventStore {
             events[it.id] = events[it.id] ?: mutableMapOf()
 
             if (events[it.id]?.containsKey(it.version) == true) {
-                    throw VersionConflictException(it)
+                throw VersionConflictException(it)
             }
         }
 

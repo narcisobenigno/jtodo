@@ -5,7 +5,7 @@ sealed interface Quantity {
     val measurement: String
 }
 
-data class Grams(override val value: UInt): Quantity {
+data class Grams(override val value: UInt) : Quantity {
     override val measurement = "grams"
 
     init {
@@ -15,7 +15,7 @@ data class Grams(override val value: UInt): Quantity {
     }
 }
 
-data class TeaSpoon(override val value: UInt): Quantity {
+data class TeaSpoon(override val value: UInt) : Quantity {
     override val measurement = "teaspoon"
 
     init {
@@ -25,7 +25,7 @@ data class TeaSpoon(override val value: UInt): Quantity {
     }
 }
 
-data class TableSpoon(override val value: UInt): Quantity {
+data class TableSpoon(override val value: UInt) : Quantity {
     override val measurement = "tablespoon"
 
     init {

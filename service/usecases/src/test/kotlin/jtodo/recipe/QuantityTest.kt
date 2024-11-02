@@ -8,7 +8,7 @@ import org.junit.jupiter.api.assertThrows
 
 class QuantityTest {
     @Nested
-    inner class grams {
+    inner class Grams {
         @Test
         fun equality() {
             assertEquals(Grams(10u), Grams(10u))
@@ -17,16 +17,17 @@ class QuantityTest {
 
         @Test
         fun `grams cannot be zero`() {
-            val thrown = assertThrows<IllegalArgumentException> {
-                Grams(0u)
-            }
+            val thrown =
+                assertThrows<IllegalArgumentException> {
+                    Grams(0u)
+                }
 
             assertEquals("grams has to be greater than zero", thrown.message)
         }
     }
 
     @Nested
-    inner class teaspoon {
+    inner class Teaspoon {
         @Test
         fun equality() {
             assertEquals(TeaSpoon(10u), TeaSpoon(10u))
@@ -35,16 +36,17 @@ class QuantityTest {
 
         @Test
         fun `grams cannot be zero`() {
-            val thrown = assertThrows<IllegalArgumentException> {
-                TeaSpoon(0u)
-            }
+            val thrown =
+                assertThrows<IllegalArgumentException> {
+                    TeaSpoon(0u)
+                }
 
             assertEquals("teaspoon has to be greater than zero", thrown.message)
         }
     }
 
     @Nested
-    inner class tablespoon {
+    inner class Tablespoon {
         @Test
         fun equality() {
             assertEquals(TableSpoon(10u), TableSpoon(10u))
@@ -53,9 +55,10 @@ class QuantityTest {
 
         @Test
         fun `grams cannot be zero`() {
-            val thrown = assertThrows<IllegalArgumentException> {
-                TableSpoon(0u)
-            }
+            val thrown =
+                assertThrows<IllegalArgumentException> {
+                    TableSpoon(0u)
+                }
 
             assertEquals("tablespoon has to be greater than zero", thrown.message)
         }
