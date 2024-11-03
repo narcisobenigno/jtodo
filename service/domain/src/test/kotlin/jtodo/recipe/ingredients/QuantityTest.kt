@@ -1,4 +1,4 @@
-package jtodo.recipe
+package jtodo.recipe.ingredients
 
 import jtodo.recipe.ingredients.Grams
 import jtodo.recipe.ingredients.TableSpoon

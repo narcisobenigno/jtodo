@@ -1,4 +1,4 @@
-package jtodo.recipe.planning
+package jtodo.usecases.recipe.planning
 
 import jtodo.oss.es.Command
 import jtodo.oss.es.Decider

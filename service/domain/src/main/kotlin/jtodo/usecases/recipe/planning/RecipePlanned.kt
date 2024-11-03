@@ -1,4 +1,4 @@
-package jtodo.recipe.planning
+package jtodo.usecases.recipe.planning
 
 import jtodo.oss.es.Event
 import jtodo.oss.es.Id
