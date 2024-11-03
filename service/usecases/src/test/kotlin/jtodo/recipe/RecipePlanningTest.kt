@@ -3,6 +3,11 @@ package jtodo.recipe
 import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
 import jtodo.oss.es.Version
+import jtodo.recipe.ingredients.Grams
+import jtodo.recipe.ingredients.Ingredient
+import jtodo.recipe.planning.PlanRecipe
+import jtodo.recipe.planning.RecipePlanned
+import jtodo.recipe.planning.RecipePlanning
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test

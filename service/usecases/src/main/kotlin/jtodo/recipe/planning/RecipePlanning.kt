@@ -1,4 +1,4 @@
-package jtodo.recipe
+package jtodo.recipe.planning
 
 import jtodo.oss.es.Command
 import jtodo.oss.es.Decider
@@ -6,6 +6,7 @@ import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
 import jtodo.oss.es.State
 import jtodo.oss.es.Version
+import jtodo.recipe.ingredients.Ingredient
 
 data class PlanRecipe(val id: Id, val name: String, val ingredients: List<Ingredient>) : Command
 

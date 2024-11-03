@@ -1,4 +1,4 @@
-package jtodo.recipe
+package jtodo.recipe.ingredients
 
 sealed interface Quantity {
     val value: UInt

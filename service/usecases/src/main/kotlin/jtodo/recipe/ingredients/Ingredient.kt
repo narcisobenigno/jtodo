@@ -1,4 +1,4 @@
-package jtodo.recipe
+package jtodo.recipe.ingredients
 
 data class Ingredient(private var name: String, private val quantity: Quantity) {
     init {
