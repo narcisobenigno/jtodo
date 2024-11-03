@@ -4,7 +4,9 @@ import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
 import jtodo.oss.es.Version
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class AddRecipeTest {
     @Test
@@ -41,6 +43,45 @@ class AddRecipeTest {
                 ),
             ),
             events,
+        )
+    }
+
+    @Test
+    fun `rejects when recipe already added`() {
+        val addRecipe = AddRecipe()
+        val currentState = addRecipe.evolve(
+            addRecipe.initialState, EventRecord(
+                Id.fixed("recipe-1"),
+                Version(),
+                RecipeAdded(
+                    Id.fixed("recipe-1"),
+                    "sopa de abobrinha",
+                    listOf(
+                        Ingredient("abobrinha", Grams(100u)),
+                        Ingredient("sal", Grams(8u)),
+                    ),
+                ),
+            )
+        )
+
+        val events =
+            addRecipe.decide(
+                AddRecipeCommand(
+                    Id.fixed("recipe-1"),
+                    "sopa de abobrinha",
+                    listOf(
+                        Ingredient("abobrinha", Grams(100u)),
+                        Ingredient("sal", Grams(8u)),
+                        Ingredient("azeite", Grams(10u)),
+                    ),
+                ),
+                currentState,
+            )
+
+        assertThrowsExactly(
+            IllegalArgumentException::class.java,
+            { events.getOrThrow() },
+            "recipe ${Id.fixed("recipe-1")} is already planned"
         )
     }
 }

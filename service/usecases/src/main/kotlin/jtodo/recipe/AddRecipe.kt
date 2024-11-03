@@ -9,13 +9,20 @@ import jtodo.oss.es.Version
 
 data class AddRecipeCommand(val id: Id, val name: String, val ingredients: List<Ingredient>) : Command
 
-class PlanRecipeState : State
+sealed class PlanRecipeState : State {
+    data object Unplanned : PlanRecipeState()
+    data object Planned : PlanRecipeState()
+}
 
 class AddRecipe : Decider<AddRecipeCommand, PlanRecipeState> {
     override fun decide(
         command: AddRecipeCommand,
         state: PlanRecipeState,
     ): Result<List<EventRecord>> {
+        if (state != PlanRecipeState.Unplanned) {
+            return Result.failure(IllegalArgumentException("recipe ${command.id} is already planned"))
+        }
+
         return Result.success(
             listOf(
                 EventRecord(
@@ -33,10 +40,13 @@ class AddRecipe : Decider<AddRecipeCommand, PlanRecipeState> {
 
     override fun evolve(
         state: PlanRecipeState,
-        event: EventRecord,
+        record: EventRecord,
     ): PlanRecipeState {
-        TODO("Not yet implemented")
+        when (record.event) {
+            is RecipeAdded -> return PlanRecipeState.Planned
+        }
+        return state
     }
 
-    override val initialState = PlanRecipeState()
+    override val initialState = PlanRecipeState.Unplanned
 }

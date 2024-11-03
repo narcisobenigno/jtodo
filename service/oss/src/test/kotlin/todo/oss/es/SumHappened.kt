@@ -47,9 +47,9 @@ class DoSomeSum : Decider<DoSum, SumState> {
 
     override fun evolve(
         state: SumState,
-        event: EventRecord,
+        record: EventRecord,
     ): SumState {
-        when (val payload = event.event) {
+        when (val payload = record.event) {
             is SumHappened -> return SumState(state.currentValue + payload.value)
         }
 

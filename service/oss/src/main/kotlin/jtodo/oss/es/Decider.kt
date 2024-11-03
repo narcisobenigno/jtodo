@@ -18,7 +18,7 @@ interface Decider<C : Command, S : State> {
 
     fun evolve(
         state: S,
-        event: EventRecord,
+        record: EventRecord,
     ): S
 
     val initialState: S
