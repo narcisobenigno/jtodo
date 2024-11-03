@@ -7,16 +7,16 @@ import jtodo.oss.es.Id
 import jtodo.oss.es.State
 import jtodo.oss.es.Version
 
-data class AddRecipeCommand(val id: Id, val name: String, val ingredients: List<Ingredient>) : Command
+data class PlanRecipe(val id: Id, val name: String, val ingredients: List<Ingredient>) : Command
 
 sealed class PlanRecipeState : State {
     data object Unplanned : PlanRecipeState()
     data object Planned : PlanRecipeState()
 }
 
-class AddRecipe : Decider<AddRecipeCommand, PlanRecipeState> {
+class RecipePlanning : Decider<PlanRecipe, PlanRecipeState> {
     override fun decide(
-        command: AddRecipeCommand,
+        command: PlanRecipe,
         state: PlanRecipeState,
     ): Result<List<EventRecord>> {
         if (state != PlanRecipeState.Unplanned) {
@@ -28,7 +28,7 @@ class AddRecipe : Decider<AddRecipeCommand, PlanRecipeState> {
                 EventRecord(
                     command.id,
                     Version(),
-                    RecipeAdded(
+                    RecipePlanned(
                         command.id,
                         command.name,
                         command.ingredients,
@@ -43,7 +43,7 @@ class AddRecipe : Decider<AddRecipeCommand, PlanRecipeState> {
         record: EventRecord,
     ): PlanRecipeState {
         when (record.event) {
-            is RecipeAdded -> return PlanRecipeState.Planned
+            is RecipePlanned -> return PlanRecipeState.Planned
         }
         return state
     }

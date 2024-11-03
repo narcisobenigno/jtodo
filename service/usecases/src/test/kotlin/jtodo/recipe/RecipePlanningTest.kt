@@ -6,15 +6,14 @@ import jtodo.oss.es.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
-class AddRecipeTest {
+class RecipePlanningTest {
     @Test
     fun `plans recipe`() {
-        val addRecipe = AddRecipe()
+        val recipePlanning = RecipePlanning()
         val events =
-            addRecipe.decide(
-                AddRecipeCommand(
+            recipePlanning.decide(
+                PlanRecipe(
                     Id.fixed("recipe-1"),
                     "sopa de abobrinha",
                     listOf(
@@ -22,7 +21,7 @@ class AddRecipeTest {
                         Ingredient("sal", Grams(8u)),
                     ),
                 ),
-                addRecipe.initialState,
+                recipePlanning.initialState,
             )
 
         assertEquals(
@@ -31,7 +30,7 @@ class AddRecipeTest {
                     EventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
-                        RecipeAdded(
+                        RecipePlanned(
                             Id.fixed("recipe-1"),
                             "sopa de abobrinha",
                             listOf(
@@ -48,12 +47,12 @@ class AddRecipeTest {
 
     @Test
     fun `rejects when recipe already added`() {
-        val addRecipe = AddRecipe()
-        val currentState = addRecipe.evolve(
-            addRecipe.initialState, EventRecord(
+        val recipePlanning = RecipePlanning()
+        val currentState = recipePlanning.evolve(
+            recipePlanning.initialState, EventRecord(
                 Id.fixed("recipe-1"),
                 Version(),
-                RecipeAdded(
+                RecipePlanned(
                     Id.fixed("recipe-1"),
                     "sopa de abobrinha",
                     listOf(
@@ -65,8 +64,8 @@ class AddRecipeTest {
         )
 
         val events =
-            addRecipe.decide(
-                AddRecipeCommand(
+            recipePlanning.decide(
+                PlanRecipe(
                     Id.fixed("recipe-1"),
                     "sopa de abobrinha",
                     listOf(
