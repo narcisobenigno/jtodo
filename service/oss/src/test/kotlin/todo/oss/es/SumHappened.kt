@@ -1,12 +1,12 @@
 package todo.oss.es
 
-import jtodo.oss.es.Command
-import jtodo.oss.es.Decider
-import jtodo.oss.es.Event
-import jtodo.oss.es.EventRecord
-import jtodo.oss.es.Id
-import jtodo.oss.es.State
-import jtodo.oss.es.Version
+import todo.oss.es.Command
+import todo.oss.es.Decider
+import todo.oss.es.Event
+import todo.oss.es.EventRecord
+import todo.oss.es.Id
+import todo.oss.es.State
+import todo.oss.es.Version
 
 data class SumHappened(val value: Int) : Event {
     override val eventName: String

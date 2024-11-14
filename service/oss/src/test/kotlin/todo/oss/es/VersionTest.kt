@@ -1,6 +1,6 @@
 package todo.oss.es
 
-import jtodo.oss.es.Version
+import todo.oss.es.Version
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue

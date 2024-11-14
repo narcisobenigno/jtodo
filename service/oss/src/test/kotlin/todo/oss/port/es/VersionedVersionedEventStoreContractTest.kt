@@ -1,10 +1,10 @@
 package todo.oss.port.es
 
-import jtodo.oss.es.EventRecord
-import jtodo.oss.es.VersionedEventStore
-import jtodo.oss.es.Id
-import jtodo.oss.es.Version
-import jtodo.oss.es.VersionConflictException
+import todo.oss.es.EventRecord
+import todo.oss.es.VersionedEventStore
+import todo.oss.es.Id
+import todo.oss.es.Version
+import todo.oss.es.VersionConflictException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
