@@ -1,6 +1,6 @@
 package todo.oss.port.es
 
-import todo.oss.es.EventRecord
+import todo.oss.es.VersionedEventRecord
 import todo.oss.es.VersionedEventStore
 import todo.oss.es.Id
 import todo.oss.es.Version
@@ -19,7 +19,7 @@ interface VersionedVersionedEventStoreContractTest {
 
         eventStore.write(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -30,7 +30,7 @@ interface VersionedVersionedEventStoreContractTest {
         val events = eventStore.load(Id.fixed("recipe-1"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -46,12 +46,12 @@ interface VersionedVersionedEventStoreContractTest {
 
         eventStore.write(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
                 ),
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-2"),
                     Version(),
                     SumHappened(value = 2),
@@ -62,7 +62,7 @@ interface VersionedVersionedEventStoreContractTest {
         var events = eventStore.load(Id.fixed("recipe-1"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -74,7 +74,7 @@ interface VersionedVersionedEventStoreContractTest {
         events = eventStore.load(Id.fixed("recipe-2"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-2"),
                     Version(),
                     SumHappened(value = 2),
@@ -90,7 +90,7 @@ interface VersionedVersionedEventStoreContractTest {
 
         eventStore.write(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -101,7 +101,7 @@ interface VersionedVersionedEventStoreContractTest {
         assertThrowsExactly(VersionConflictException::class.java) {
             eventStore.write(
                 listOf(
-                    EventRecord(
+                    VersionedEventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
                         SumHappened(value = 2),
@@ -113,7 +113,7 @@ interface VersionedVersionedEventStoreContractTest {
         val events = eventStore.load(Id.fixed("recipe-1"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -129,12 +129,12 @@ interface VersionedVersionedEventStoreContractTest {
 
         eventStore.write(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(2u),
                     SumHappened(value = 2),
                 ),
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -145,12 +145,12 @@ interface VersionedVersionedEventStoreContractTest {
         val events = eventStore.load(Id.fixed("recipe-1"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
                 ),
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(2u),
                     SumHappened(value = 2),

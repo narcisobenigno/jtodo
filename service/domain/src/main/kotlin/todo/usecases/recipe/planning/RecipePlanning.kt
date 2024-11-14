@@ -2,7 +2,7 @@ package todo.usecases.recipe.planning
 
 import todo.oss.es.Command
 import todo.oss.es.Decider
-import todo.oss.es.EventRecord
+import todo.oss.es.VersionedEventRecord
 import todo.oss.es.Id
 import todo.oss.es.State
 import todo.oss.es.Version
@@ -19,14 +19,14 @@ class RecipePlanning : Decider<PlanRecipe, PlanRecipeState> {
     override fun decide(
         command: PlanRecipe,
         state: PlanRecipeState,
-    ): Result<List<EventRecord>> {
+    ): Result<List<VersionedEventRecord>> {
         if (state != PlanRecipeState.Unplanned) {
             return Result.failure(IllegalArgumentException("recipe ${command.id} is already planned"))
         }
 
         return Result.success(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     command.id,
                     Version(),
                     RecipePlanned(
@@ -41,7 +41,7 @@ class RecipePlanning : Decider<PlanRecipe, PlanRecipeState> {
 
     override fun evolve(
         state: PlanRecipeState,
-        record: EventRecord,
+        record: VersionedEventRecord,
     ): PlanRecipeState {
         when (record.event) {
             is RecipePlanned -> return PlanRecipeState.Planned

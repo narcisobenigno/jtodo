@@ -1,13 +1,5 @@
 package todo.oss.es
 
-import todo.oss.es.Command
-import todo.oss.es.Decider
-import todo.oss.es.Event
-import todo.oss.es.EventRecord
-import todo.oss.es.Id
-import todo.oss.es.State
-import todo.oss.es.Version
-
 data class SumHappened(val value: Int) : Event {
     override val eventName: String
         get() = "SumHappened"
@@ -21,11 +13,11 @@ class DoSomeSum : Decider<DoSum, SumState> {
     override fun decide(
         command: DoSum,
         state: SumState,
-    ): Result<List<EventRecord>> {
+    ): Result<List<VersionedEventRecord>> {
         if (state == initialState) {
             return Result.success(
                 listOf(
-                    EventRecord(
+                    VersionedEventRecord(
                         command.id,
                         Version(),
                         SumHappened(command.value),
@@ -36,7 +28,7 @@ class DoSomeSum : Decider<DoSum, SumState> {
 
         return Result.success(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     command.id,
                     state.version.bump(),
                     SumHappened(command.value + state.currentValue),
@@ -47,7 +39,7 @@ class DoSomeSum : Decider<DoSum, SumState> {
 
     override fun evolve(
         state: SumState,
-        record: EventRecord,
+        record: VersionedEventRecord,
     ): SumState {
         when (val payload = record.event) {
             is SumHappened -> return SumState(state.currentValue + payload.value)

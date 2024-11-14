@@ -8,17 +8,15 @@ interface Event {
     val eventName: String
 }
 
-data class EventRecord(val id: Id, val version: Version, val event: Event)
-
 interface Decider<C : Command, S : State> {
     fun decide(
         command: C,
         state: S,
-    ): Result<List<EventRecord>>
+    ): Result<List<VersionedEventRecord>>
 
     fun evolve(
         state: S,
-        record: EventRecord,
+        record: VersionedEventRecord,
     ): S
 
     val initialState: S

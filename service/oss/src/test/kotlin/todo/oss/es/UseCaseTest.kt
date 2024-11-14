@@ -1,9 +1,5 @@
 package todo.oss.es
 
-import todo.oss.es.EventRecord
-import todo.oss.es.Id
-import todo.oss.es.Version
-import todo.oss.es.useCase
 import todo.oss.port.es.InMemoryVersionedEventStore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -24,7 +20,7 @@ class UseCaseTest {
 
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("something-1"),
                     Version(),
                     SumHappened(value = 3),
@@ -38,7 +34,7 @@ class UseCaseTest {
     fun `consider previous events`() {
         val eventStore =
             InMemoryVersionedEventStore(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("something-1"),
                     Version(),
                     SumHappened(value = 2),
@@ -56,12 +52,12 @@ class UseCaseTest {
 
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("something-1"),
                     Version(1u),
                     SumHappened(value = 2),
                 ),
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("something-1"),
                     Version(2u),
                     SumHappened(value = 5),

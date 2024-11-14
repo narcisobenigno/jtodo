@@ -1,6 +1,6 @@
 package todo.usecases.recipe.planning
 
-import todo.oss.es.EventRecord
+import todo.oss.es.VersionedEventRecord
 import todo.oss.es.Id
 import todo.oss.es.Version
 import todo.recipe.ingredients.Grams
@@ -8,9 +8,6 @@ import todo.recipe.ingredients.Ingredient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
-import todo.usecases.recipe.planning.PlanRecipe
-import todo.usecases.recipe.planning.RecipePlanned
-import todo.usecases.recipe.planning.RecipePlanning
 
 class RecipePlanningTest {
     @Test
@@ -32,7 +29,7 @@ class RecipePlanningTest {
         assertEquals(
             Result.success(
                 listOf(
-                    EventRecord(
+                    VersionedEventRecord(
                         Id.fixed("recipe-1"),
                         Version(),
                         RecipePlanned(
@@ -54,7 +51,7 @@ class RecipePlanningTest {
     fun `rejects when recipe already added`() {
         val recipePlanning = RecipePlanning()
         val currentState = recipePlanning.evolve(
-            recipePlanning.initialState, EventRecord(
+            recipePlanning.initialState, VersionedEventRecord(
                 Id.fixed("recipe-1"),
                 Version(),
                 RecipePlanned(

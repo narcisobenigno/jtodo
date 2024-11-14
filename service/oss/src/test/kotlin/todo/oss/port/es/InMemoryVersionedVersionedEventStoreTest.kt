@@ -1,10 +1,9 @@
 package todo.oss.port.es
 
-import todo.oss.es.EventRecord
+import todo.oss.es.VersionedEventRecord
 import todo.oss.es.VersionedEventStore
 import todo.oss.es.Id
 import todo.oss.es.Version
-import todo.oss.port.es.InMemoryVersionedEventStore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -24,7 +23,7 @@ class InMemoryVersionedVersionedEventStoreTest {
     fun `writes events in constructor`() {
         val inMemoryVersionedEventStore =
             InMemoryVersionedEventStore(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
@@ -34,7 +33,7 @@ class InMemoryVersionedVersionedEventStoreTest {
         val events = inMemoryVersionedEventStore.load(Id.fixed("recipe-1"))
         assertEquals(
             listOf(
-                EventRecord(
+                VersionedEventRecord(
                     Id.fixed("recipe-1"),
                     Version(),
                     SumHappened(value = 1),
