@@ -1,12 +1,12 @@
 package jtodo.oss.port.es
 
 import jtodo.oss.es.EventRecord
-import jtodo.oss.es.EventStore
+import jtodo.oss.es.VersionedEventStore
 import jtodo.oss.es.Id
 import jtodo.oss.es.Version
 import jtodo.oss.es.VersionConflictException
 
-class InMemoryEventStore(vararg events: EventRecord) : EventStore {
+class InMemoryVersionedEventStore(vararg events: EventRecord) : VersionedEventStore {
     private val events = mutableMapOf<Id, MutableMap<Version, EventRecord>>()
 
     init {

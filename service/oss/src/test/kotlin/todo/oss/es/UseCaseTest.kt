@@ -4,14 +4,14 @@ import jtodo.oss.es.EventRecord
 import jtodo.oss.es.Id
 import jtodo.oss.es.Version
 import jtodo.oss.es.useCase
-import jtodo.oss.port.es.InMemoryEventStore
+import jtodo.oss.port.es.InMemoryVersionedEventStore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class UseCaseTest {
     @Test
     fun `executes command`() {
-        val eventStore = InMemoryEventStore()
+        val eventStore = InMemoryVersionedEventStore()
         val doSomething = useCase(DoSomeSum(), eventStore)
 
         doSomething(
@@ -37,7 +37,7 @@ class UseCaseTest {
     @Test
     fun `consider previous events`() {
         val eventStore =
-            InMemoryEventStore(
+            InMemoryVersionedEventStore(
                 EventRecord(
                     Id.fixed("something-1"),
                     Version(),

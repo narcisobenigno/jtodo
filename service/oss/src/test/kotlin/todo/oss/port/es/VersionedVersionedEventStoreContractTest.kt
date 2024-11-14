@@ -1,7 +1,7 @@
 package todo.oss.port.es
 
 import jtodo.oss.es.EventRecord
-import jtodo.oss.es.EventStore
+import jtodo.oss.es.VersionedEventStore
 import jtodo.oss.es.Id
 import jtodo.oss.es.Version
 import jtodo.oss.es.VersionConflictException
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
 import todo.oss.es.SumHappened
 
-interface EventStoreContractTest {
-    fun eventStore(): EventStore
+interface VersionedVersionedEventStoreContractTest {
+    fun eventStore(): VersionedEventStore
 
     @Test
     fun `single events`() {
