@@ -5,11 +5,17 @@ data class SumHappened(val value: Int) : Event {
         get() = "SumHappened"
 }
 
+data class MultiplyHappened(val value: Int) : Event {
+    override val eventName: String
+        get() = "MultiplyHappened"
+}
+
 data class DoSum(val id: Id, val value: Int) : Command
 
 data class SumState(val currentValue: Int = 0, val version: Version = Version()) : State
 
 class DoSomeSum : Decider<DoSum, SumState> {
+
     override fun decide(
         command: DoSum,
         state: SumState,
@@ -47,7 +53,6 @@ class DoSomeSum : Decider<DoSum, SumState> {
 
         return state
     }
-
     override val initialState: SumState
         get() = SumState()
 }
