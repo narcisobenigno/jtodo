@@ -10,6 +10,7 @@ import todo.oss.es.EventStream
 import todo.oss.es.Id
 import todo.oss.es.MultiplyHappened
 import todo.oss.es.PersistedEventRecord
+import todo.oss.es.Position
 import todo.oss.es.StreamQuery
 import todo.oss.es.SumHappened
 import todo.oss.es.VersionConflictException
@@ -22,11 +23,15 @@ class InMemoryEventStoreTest {
         store.append(
             listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.NotInitialized
         )
 
         assertEquals(
-            EventStream(listOf(PersistedEventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")), 1u))),
+            EventStream(listOf(PersistedEventRecord(
+                SumHappened(value = 10),
+                listOf(Id.fixed("sum-1")),
+                Position.Current(1u)
+            ))),
             store.read(StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened"))),
         )
     }
@@ -38,13 +43,13 @@ class InMemoryEventStoreTest {
         store.append(
             listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.NotInitialized
         )
 
         store.append(
             listOf(EventRecord(SumHappened(value = 15), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.Current(1u),
         )
 
         assertEquals(
@@ -53,12 +58,12 @@ class InMemoryEventStoreTest {
                     PersistedEventRecord(
                         SumHappened(value = 10),
                         listOf(Id.fixed("sum-1")),
-                        1u
+                        Position.Current(1u),
                     ),
                     PersistedEventRecord(
                         SumHappened(value = 15),
                         listOf(Id.fixed("sum-1")),
-                        2u
+                        Position.Current(2u),
                     ),
                 )
             ),
@@ -78,13 +83,13 @@ class InMemoryEventStoreTest {
         store.append(
             listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.NotInitialized,
         )
 
         store.append(
             listOf(EventRecord(SumHappened(value = 15), listOf(Id.fixed("sum-2")))),
             StreamQuery(listOf(Id.fixed("sum-2")), listOf("SumHappened")),
-            1u
+            Position.Current(1u),
         )
 
         assertEquals(
@@ -93,7 +98,7 @@ class InMemoryEventStoreTest {
                     PersistedEventRecord(
                         SumHappened(value = 10),
                         listOf(Id.fixed("sum-1")),
-                        1u
+                        Position.Current(1u),
                     ),
                 )
             ),
@@ -113,13 +118,13 @@ class InMemoryEventStoreTest {
         store.append(
             listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.NotInitialized,
         )
 
         store.append(
             listOf(EventRecord(MultiplyHappened(value = 15), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("MultiplyHappened")),
-            1u
+            Position.Current(1u),
         )
 
         assertEquals(
@@ -128,7 +133,7 @@ class InMemoryEventStoreTest {
                     PersistedEventRecord(
                         SumHappened(value = 10),
                         listOf(Id.fixed("sum-1")),
-                        1u
+                        Position.Current(1u),
                     ),
                 )
             ),
@@ -148,21 +153,21 @@ class InMemoryEventStoreTest {
         store.append(
             listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.NotInitialized,
         )
 
         store.append(
             listOf(EventRecord(SumHappened(value = 15), listOf(Id.fixed("sum-1")))),
             StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-            1u
+            Position.Current(1u),
         )
 
         assertEquals(
-            Result.failure<String>(ConflictException(1u)),
+            Result.failure<String>(ConflictException(Position.Current(1u)),),
             store.append(
                 listOf(EventRecord(SumHappened(value = 20), listOf(Id.fixed("sum-1")))),
                 StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
-                1u
+                Position.Current(1u),
             ),
         )
 
@@ -173,12 +178,12 @@ class InMemoryEventStoreTest {
                     PersistedEventRecord(
                         SumHappened(value = 10),
                         listOf(Id.fixed("sum-1")),
-                        1u
+                        Position.Current(1u),
                     ),
                     PersistedEventRecord(
                         SumHappened(value = 15),
                         listOf(Id.fixed("sum-1")),
-                        2u
+                        Position.Current(2u),
                     ),
                 )
             ),

@@ -4,13 +4,14 @@ import todo.oss.es.ConflictException
 import todo.oss.es.EventRecord
 import todo.oss.es.EventStream
 import todo.oss.es.PersistedEventRecord
+import todo.oss.es.Position
 import todo.oss.es.StreamQuery
 
 class InMemoryEventStore() {
     private var events = emptyList<PersistedEventRecord>()
 
-    fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: UInt): Result<String> {
-        if (read(streamQuery).lastPosition > lastPosition) {
+    fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: Position): Result<String> {
+        if (read(streamQuery).lastPosition != lastPosition) {
             return Result.failure(ConflictException(lastPosition))
         }
 
@@ -18,7 +19,7 @@ class InMemoryEventStore() {
             PersistedEventRecord(
                 record.event,
                 record.streamIds,
-                (this.events.size + i + 1).toUInt()
+                Position.Current((this.events.size + i + 1).toUInt())
             )
         }
         this.events += newEvents
