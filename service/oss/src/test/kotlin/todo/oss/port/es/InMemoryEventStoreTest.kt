@@ -1,8 +1,6 @@
 package todo.oss.port.es
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
 import todo.oss.es.ConflictException
 import todo.oss.es.EventRecord
@@ -13,7 +11,6 @@ import todo.oss.es.PersistedEventRecord
 import todo.oss.es.Position
 import todo.oss.es.StreamQuery
 import todo.oss.es.SumHappened
-import todo.oss.es.VersionConflictException
 
 class InMemoryEventStoreTest {
     @Test
