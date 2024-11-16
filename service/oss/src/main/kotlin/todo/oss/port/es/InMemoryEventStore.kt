@@ -11,7 +11,7 @@ class InMemoryEventStore() {
     private var events = emptyList<PersistedEventRecord>()
 
     fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: Position): Result<String> {
-        if ((this.events.filter { streamQuery.eventNames.contains(it.event.eventName) }.lastOrNull()?.position ?: Position.NotInitialized) != lastPosition) {
+        if (this.read(streamQuery).lastPosition != lastPosition) {
             return Result.failure(ConflictException(lastPosition))
         }
 
@@ -27,8 +27,10 @@ class InMemoryEventStore() {
     }
 
     fun read(streamQuery: StreamQuery): EventStream {
-        return EventStream(this.events.filter {
-            it.streamIds.containsAll(streamQuery.streamIds) && streamQuery.eventNames.contains(it.event.eventName)
-        })
+        return EventStream(
+            this.events
+                .filter { it.streamIds.contains(streamQuery.streamIds.first())}
+                .filter { streamQuery.eventNames.first() == it.event.eventName }
+        )
     }
 }

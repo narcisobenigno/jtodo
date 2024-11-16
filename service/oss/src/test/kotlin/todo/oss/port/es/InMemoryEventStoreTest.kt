@@ -17,7 +17,7 @@ import todo.oss.es.VersionConflictException
 
 class InMemoryEventStoreTest {
     @Test
-    fun `records an event`() {
+    fun `appends an event`() {
         val store = InMemoryEventStore()
 
         store.append(
@@ -37,7 +37,7 @@ class InMemoryEventStoreTest {
     }
 
     @Test
-    fun `records an event when already exists one`() {
+    fun `appends an event when already exists one`() {
         val store = InMemoryEventStore()
 
         store.append(
@@ -112,7 +112,7 @@ class InMemoryEventStoreTest {
     }
 
     @Test
-    fun `reads events filtering by query event types`() {
+    fun `appends event filtering by query event types`() {
         val store = InMemoryEventStore()
 
         store.append(
@@ -158,6 +158,58 @@ class InMemoryEventStoreTest {
                 StreamQuery(
                     listOf(Id.fixed("sum-1")),
                     listOf("MultiplyHappened")
+                )
+            ),
+        )
+    }
+
+    @Test
+    fun `appends event filtering by query stream id`() {
+        val store = InMemoryEventStore()
+
+        store.append(
+            listOf(EventRecord(SumHappened(value = 10), listOf(Id.fixed("sum-1")))),
+            StreamQuery(listOf(Id.fixed("sum-1")), listOf("SumHappened")),
+            Position.NotInitialized,
+        )
+
+        store.append(
+            listOf(EventRecord(SumHappened(value = 15), listOf(Id.fixed("sum-2")))),
+            StreamQuery(listOf(Id.fixed("sum-2")), listOf("SumHappened")),
+            Position.NotInitialized,
+        )
+
+        assertEquals(
+            EventStream(
+                listOf(
+                    PersistedEventRecord(
+                        SumHappened(value = 10),
+                        listOf(Id.fixed("sum-1")),
+                        Position.Current(1u),
+                    ),
+                )
+            ),
+            store.read(
+                StreamQuery(
+                    listOf(Id.fixed("sum-1")),
+                    listOf("SumHappened")
+                )
+            ),
+        )
+        assertEquals(
+            EventStream(
+                listOf(
+                    PersistedEventRecord(
+                        SumHappened(value = 15),
+                        listOf(Id.fixed("sum-2")),
+                        Position.Current(2u),
+                    ),
+                )
+            ),
+            store.read(
+                StreamQuery(
+                    listOf(Id.fixed("sum-2")),
+                    listOf("SumHappened")
                 )
             ),
         )
