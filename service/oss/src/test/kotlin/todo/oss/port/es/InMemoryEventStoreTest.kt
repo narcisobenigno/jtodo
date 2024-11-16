@@ -119,7 +119,7 @@ class InMemoryEventStoreTest {
     }
 
     @Test
-    fun `reads events filtering by stream ids exactly matching`() {
+    fun `reads events filtering by any matching stream ids`() {
         val store = InMemoryEventStore()
 
         assertEquals(
@@ -134,11 +134,11 @@ class InMemoryEventStoreTest {
             Result.success("successfully stored 1 events"), store.append(
                 listOf(
                     EventRecord(
-                        SumHappened(value = 15),
+                        MultiplyHappened(value = 15),
                         setOf(Id.fixed("sum-1"), Id.fixed("sum-2"), Id.fixed("sum-3"))
                     )
                 ),
-                StreamQuery(setOf(Id.fixed("sum-2")), setOf("SumHappened")),
+                StreamQuery(setOf(Id.fixed("sum-2")), setOf("MultiplyHappened")),
                 Position.NotInitialized,
             )
         )
@@ -151,11 +151,16 @@ class InMemoryEventStoreTest {
                         setOf(Id.fixed("sum-1"), Id.fixed("sum-2")),
                         Position.Current(1u),
                     ),
+                    PersistedEventRecord(
+                        MultiplyHappened(value = 15),
+                        setOf(Id.fixed("sum-1"), Id.fixed("sum-2"), Id.fixed("sum-3")),
+                        Position.Current(2u),
+                    ),
                 )
             ),
             store.read(
                 StreamQuery(
-                    setOf(Id.fixed("sum-1"), Id.fixed("sum-2")), setOf("SumHappened")
+                    setOf(Id.fixed("sum-1"), Id.fixed("sum-2")), setOf("SumHappened", "MultiplyHappened")
                 )
             ),
         )
@@ -354,9 +359,9 @@ class InMemoryEventStoreTest {
         assertEquals(
             Result.success("successfully stored 1 events"), store.append(
                 listOf(
-                    EventRecord(SumHappened(value = 20), setOf(Id.fixed("calc-1"), Id.fixed("calc-3"))),
+                    EventRecord(SumHappened(value = 20), setOf(Id.fixed("calc-3"), Id.fixed("calc-3"))),
                 ),
-                StreamQuery(setOf(Id.fixed("calc-1"), Id.fixed("calc-3")), setOf("SumHappened")),
+                StreamQuery(setOf(Id.fixed("calc-3"), Id.fixed("calc-4")), setOf("SumHappened")),
                 Position.NotInitialized
             )
         )
