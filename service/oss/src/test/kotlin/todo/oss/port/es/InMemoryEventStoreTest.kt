@@ -119,6 +119,49 @@ class InMemoryEventStoreTest {
     }
 
     @Test
+    fun `reads events filtering by stream ids exactly matching`() {
+        val store = InMemoryEventStore()
+
+        assertEquals(
+            Result.success("successfully stored 1 events"), store.append(
+                listOf(EventRecord(SumHappened(value = 10), setOf(Id.fixed("sum-1"), Id.fixed("sum-2")))),
+                StreamQuery(setOf(Id.fixed("sum-1")), setOf("SumHappened")),
+                Position.NotInitialized,
+            )
+        )
+
+        assertEquals(
+            Result.success("successfully stored 1 events"), store.append(
+                listOf(
+                    EventRecord(
+                        SumHappened(value = 15),
+                        setOf(Id.fixed("sum-1"), Id.fixed("sum-2"), Id.fixed("sum-3"))
+                    )
+                ),
+                StreamQuery(setOf(Id.fixed("sum-2")), setOf("SumHappened")),
+                Position.NotInitialized,
+            )
+        )
+
+        assertEquals(
+            EventStream(
+                listOf(
+                    PersistedEventRecord(
+                        SumHappened(value = 10),
+                        setOf(Id.fixed("sum-1"), Id.fixed("sum-2")),
+                        Position.Current(1u),
+                    ),
+                )
+            ),
+            store.read(
+                StreamQuery(
+                    setOf(Id.fixed("sum-1"), Id.fixed("sum-2")), setOf("SumHappened")
+                )
+            ),
+        )
+    }
+
+    @Test
     fun `appends event filtering by query event types`() {
         val store = InMemoryEventStore()
 

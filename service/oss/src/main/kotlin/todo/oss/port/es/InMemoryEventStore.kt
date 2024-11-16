@@ -30,6 +30,7 @@ class InMemoryEventStore() {
         return EventStream(
             this.events
                 .filter { it.streamIds.containsAll(streamQuery.streamIds) }
+                .filter { it.streamIds.size == streamQuery.streamIds.size }
                 .filter { streamQuery.eventNames.contains(it.event.eventName) }
         )
     }
