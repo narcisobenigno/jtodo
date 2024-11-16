@@ -286,4 +286,31 @@ class InMemoryEventStoreTest {
             store.read(StreamQuery(listOf(Id.fixed("calc-1")), listOf("SumHappened", "MultiplyHappened"))),
         )
     }
+
+    @Test
+    fun `appends multi streams event`() {
+        val store = InMemoryEventStore()
+
+        assertEquals(Result.success("successfully stored 1 events"), store.append(
+            listOf(
+                EventRecord(SumHappened(value = 10), listOf(Id.fixed("calc-1"), Id.fixed("calc-2"))),
+            ),
+            StreamQuery(listOf(Id.fixed("calc-1"), Id.fixed("calc-2")), listOf("SumHappened")),
+            Position.NotInitialized
+        ))
+        assertEquals(Result.success("successfully stored 1 events"), store.append(
+            listOf(
+                EventRecord(SumHappened(value = 20), listOf(Id.fixed("calc-1"), Id.fixed("calc-3"))),
+            ),
+            StreamQuery(listOf(Id.fixed("calc-1"), Id.fixed("calc-3")), listOf("SumHappened")),
+            Position.NotInitialized
+        ))
+
+        assertEquals(
+            EventStream(listOf(
+                PersistedEventRecord(SumHappened(value = 10), listOf(Id.fixed("calc-1"), Id.fixed("calc-2")), Position.Current(1u)),
+            )),
+            store.read(StreamQuery(listOf(Id.fixed("calc-1"), Id.fixed("calc-2")), listOf("SumHappened"))),
+        )
+    }
 }
