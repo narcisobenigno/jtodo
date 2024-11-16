@@ -29,8 +29,7 @@ class InMemoryEventStore() {
     fun read(streamQuery: StreamQuery): EventStream {
         return EventStream(
             this.events
-                .filter { it.streamIds.containsAll(streamQuery.streamIds) }
-                .filter { it.streamIds.size == streamQuery.streamIds.size }
+                .filter { it.streamIds == streamQuery.streamIds }
                 .filter { streamQuery.eventNames.contains(it.event.eventName) }
         )
     }
