@@ -11,18 +11,17 @@ class InMemoryEventStore() {
     private var events = emptyList<PersistedEventRecord>()
 
     fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: Position): Result<String> {
-        if (read(streamQuery).lastPosition != lastPosition) {
+        if ((this.events.filter { streamQuery.eventNames.contains(it.event.eventName) }.lastOrNull()?.position ?: Position.NotInitialized) != lastPosition) {
             return Result.failure(ConflictException(lastPosition))
         }
 
-        val newEvents = events.mapIndexed { i, record ->
+        this.events += events.mapIndexed { i, record ->
             PersistedEventRecord(
                 record.event,
                 record.streamIds,
                 Position.Current((this.events.size + i + 1).toUInt())
             )
         }
-        this.events += newEvents
 
         return Result.success("successfully stored ${events.size} events")
     }
