@@ -30,7 +30,7 @@ class InMemoryEventStore() {
         return EventStream(
             this.events
                 .filter { it.streamIds.contains(streamQuery.streamIds.first())}
-                .filter { streamQuery.eventNames.first() == it.event.eventName }
+                .filter { streamQuery.eventNames.contains(it.event.eventName) }
         )
     }
 }

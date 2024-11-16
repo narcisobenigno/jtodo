@@ -264,4 +264,26 @@ class InMemoryEventStoreTest {
             ),
         )
     }
+
+    @Test
+    fun `append multiple events of different types`() {
+        val store = InMemoryEventStore()
+
+        store.append(
+            listOf(
+                EventRecord(SumHappened(value = 10), listOf(Id.fixed("calc-1"))),
+                EventRecord(MultiplyHappened(value = 20), listOf(Id.fixed("calc-1")))
+            ),
+            StreamQuery(listOf(Id.fixed("calc-1")), listOf("SumHappened", "MultiplyHappened")),
+            Position.NotInitialized
+        )
+
+        assertEquals(
+            EventStream(listOf(
+                PersistedEventRecord(SumHappened(value = 10), listOf(Id.fixed("calc-1")), Position.Current(1u)),
+                PersistedEventRecord(MultiplyHappened(value = 20), listOf(Id.fixed("calc-1")), Position.Current(2u))
+            )),
+            store.read(StreamQuery(listOf(Id.fixed("calc-1")), listOf("SumHappened", "MultiplyHappened"))),
+        )
+    }
 }
