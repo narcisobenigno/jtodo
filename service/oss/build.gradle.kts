@@ -5,3 +5,8 @@
 plugins {
     id("jtodo.kotlin-library-conventions")
 }
+
+dependencies {
+    implementation("org.postgresql:postgresql")
+    implementation("org.jdbi:jdbi")
+}

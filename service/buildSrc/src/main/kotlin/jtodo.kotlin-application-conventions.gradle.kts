@@ -9,3 +9,13 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    constraints {
+        implementation("io.javalin:javalin:6.3.0")
+    }
+}

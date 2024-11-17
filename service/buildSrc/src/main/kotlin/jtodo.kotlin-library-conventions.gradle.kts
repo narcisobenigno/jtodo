@@ -9,3 +9,14 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    constraints {
+        implementation("org.jdbi:jdbi:2.78")
+        implementation("org.postgresql:postgresql:42.7.4")
+    }
+}

@@ -1,0 +1,6 @@
+services:
+  postgres:
+    image: "postgres:17-alpine"
+    ports:
+      - "5432:5432"
+    env_file: compose/postgres/.env
