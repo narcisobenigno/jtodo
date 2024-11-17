@@ -2,15 +2,16 @@ package todo.oss.port.es
 
 import todo.oss.es.ConflictException
 import todo.oss.es.EventRecord
+import todo.oss.es.EventStore
 import todo.oss.es.EventStream
 import todo.oss.es.PersistedEventRecord
 import todo.oss.es.Position
 import todo.oss.es.StreamQuery
 
-class InMemoryEventStore() {
+class InMemoryEventStore : EventStore {
     private var events = emptyList<PersistedEventRecord>()
 
-    fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: Position): Result<String> {
+    override fun append(events: List<EventRecord>, streamQuery: StreamQuery, lastPosition: Position): Result<String> {
         if (this.read(streamQuery).lastPosition != lastPosition) {
             return Result.failure(ConflictException(lastPosition))
         }
@@ -26,7 +27,7 @@ class InMemoryEventStore() {
         return Result.success("successfully stored ${events.size} events")
     }
 
-    fun read(streamQuery: StreamQuery): EventStream {
+    override fun read(streamQuery: StreamQuery): EventStream {
         return EventStream(
             this.events
                 .filter { it.streamIds.intersect(streamQuery.streamIds).isNotEmpty() }
